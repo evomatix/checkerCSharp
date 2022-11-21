@@ -7,20 +7,21 @@ using System.Threading.Tasks;
 using SeleniumNUnitExtentReport.Config;
 using SeleniumNUnitExtentReport.PageMethods;
 using SeleniumNUnitExtentReport.Pages;
+using EvomatixTester.DataDriven.DataSource;
 
 namespace SeleniumNUnitExtentReport.TestCases
 {
     [TestFixture]
     public class LoginTest : ReportsGenerationClass
     {
-        
+
 
         [Test]
         [Category("Search Google")]
         public void test_validLogin()
         {
 
-            handler.Open("https://google/com",1000);
+            handler.Open("https://google/com", 1000);
             handler.Click(GoogleHome.txt_IFL);
         }
 
@@ -31,5 +32,15 @@ namespace SeleniumNUnitExtentReport.TestCases
             GoogleHomePOM HomePage = new GoogleHomePOM(handler);
             HomePage.ClickOnFeelingLuckey();
         }
+
+        [Test, TestCaseSource(typeof(DataSources), "SearchTermsFromCSV")]
+        [Category("Search Google")]
+        public void test_validLogin(String username, String password)
+        {
+            Console.Write(username);
+            Console.Write(password);
+            handler.Open("https://google/com", 1000);
+
+        }
     }
-}
+ }

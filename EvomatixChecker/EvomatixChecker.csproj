@@ -79,6 +79,9 @@
     <Reference Include="WebDriver.Support, Version=3.141.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Selenium.Support.3.141.0\lib\net45\WebDriver.Support.dll</HintPath>
     </Reference>
+    <Reference Include="LumenWorks.Framework.IO">
+      <HintPath>..\packages\LumenWorks.Framework.IO.3.8.0\lib\net20\LumenWorks.Framework.IO.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Framework\ReportsGenerationClass.cs" />
@@ -94,10 +97,14 @@
     <Compile Include="Framework\model\Page.cs" />
     <Compile Include="Framework\model\locator\LocatorParam.cs" />
     <Compile Include="Pages\GoogleHomePOM.cs" />
+    <Compile Include="DataSource\DataSources.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="license" />
     <None Include="packages.config" />
+    <None Include="Data\data.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="extent-config.xml" />
@@ -107,6 +114,8 @@
     <Folder Include="Framework\model\" />
     <Folder Include="Framework\model\locator\" />
     <Folder Include="Framework\model\reporting\" />
+    <Folder Include="DataSource\" />
+    <Folder Include="Data\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

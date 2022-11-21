@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 using System.Threading;
+using System.Xml.Linq;
 using NUnit.Framework.Internal;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using SeleniumNUnitExtentReport.Framework.model;
 using SeleniumNUnitExtentReport.Framework.model.locator;
@@ -16,6 +20,8 @@ namespace SeleniumNUnitExtentReport.Framework
     {
 
         private IWebDriver driver;
+
+        private bool acceptNextAlert = true;
 
         private ReportHelper reporter;
 
@@ -211,7 +217,164 @@ namespace SeleniumNUnitExtentReport.Framework
             locator.Parameters = locatorParams;
             return this.checkElementPresent(locator);
         }
+
+
+        public bool IsAlertPresent()
+        {
+            try
+            {
+            driver.SwitchTo().Alert();
+                return true;
+            }
+            catch (NoAlertPresentException)
+            {
+                return false;
+            }
+        }
+
+        public string CloseAlertAndGetItsText()
+        {
+            try
+            {
+
+                IAlert alert = driver.SwitchTo().Alert();
+                string alertText = alert.Text;
+                if (acceptNextAlert)
+                {
+                    alert.Accept();
+                }
+                else
+                {
+                    alert.Dismiss();
+                }
+                return alertText;
+            }
+            finally
+            {
+                acceptNextAlert = true;
+            }
+        }
+
+
+
+        public void NavigateToURL(string url)
+        {
+
+            driver.Navigate().GoToUrl(url);
+
+        }
+
+
+        public string GetAttributeValue(ObjectLocator locator, Dictionary<String, String> locatorParams, string attributeName)
+        {
+            locator.Parameters = locatorParams;
+            return GetAttributeValue(locator, attributeName);
+        }
+
+
+        public string GetAttributeValue(ObjectLocator locator, string attributeName)
+        {
+            string txtValue = this.findElement(locator).GetAttribute(attributeName);
+            return txtValue;
+
+        }
+
+        public void SwitchToDilog()
+        {
+            driver.SwitchTo().Frame(driver.FindElement(By.ClassName("ms-dlgFrame")));
+        }
+
+
+        public void DragAndDrop(ObjectLocator sourceLocator, ObjectLocator destinationLocator)
+        {
+            Actions ActBuilder = new Actions(driver);
+            ActBuilder.ClickAndHold(this.findElement(sourceLocator)).MoveToElement(this.findElement(destinationLocator))
+            .Release(this.findElement(destinationLocator))
+            .Build()
+            .Perform();
+            
+        }
+
+        public void ScrollToElementUsingJavaScript(ObjectLocator element)
+        {
+
+            IJavaScriptExecutor jse = (IJavaScriptExecutor)driver;
+            jse.ExecuteScript("arguments[0].scrollIntoView(true);", this.findElement(element));
+
+        }
+
+
+
+        public int GetNumberOfRowsInTable(ObjectLocator tableLocator)
+        {
+            int numberOfRowsInTable = this.findElement(tableLocator).FindElements(By.CssSelector("tbody>tr")).Count;
+
+            return numberOfRowsInTable;
+
+        }
+
+
+        public List<string> GetValuesOfColumnByNameFromTable(ObjectLocator tableIdentifier, string columnName)
+        {
+
+            List<IWebElement> tableHeaders = this.findElement(tableIdentifier).FindElements(By.CssSelector("thead>tr>th")).ToList();
+            int indexOfRequiredColumnName = tableHeaders.FindIndex(x => x.Text.Contains(columnName));
+
+
+            List<IWebElement> tr_tableElements = this.findElement(tableIdentifier).FindElements(By.CssSelector("tbody>tr")).ToList();
+
+            List<string> valuesFromSelectedTableColumn = new List<string>();
+
+            foreach (IWebElement tr_element in tr_tableElements)
+            {
+                List<IWebElement> td_collection = tr_element.FindElements(By.CssSelector("td")).ToList();
+                valuesFromSelectedTableColumn.Add(td_collection[indexOfRequiredColumnName].Text.Trim());
+
+            }
+            //loma
+
+            return valuesFromSelectedTableColumn;
+
+        }
+
+
+        public int GetIndexOfTableRowContainingSpecificText(ObjectLocator tableIdentifier, string stringToBeSearched)
+        {
+            IWebElement table = this.findElement(tableIdentifier);
+
+            List<IWebElement> tableRows = table.FindElements(By.CssSelector("tbody>tr")).ToList();
+            int indexOfRequiredText = tableRows.FindIndex(x => x.Text.Contains(stringToBeSearched));
+            return indexOfRequiredText;
+            //loma
+
+        }
+
+
+        public  string GetValueFromSpecificCellFromTable(ObjectLocator tableIdentifier, int rowIndex, int columnIndex)
+        {
+            IWebElement table = this.findElement(tableIdentifier);
+            return table.FindElements(By.CssSelector("tbody>tr"))[rowIndex].FindElements(By.CssSelector("td"))[columnIndex].Text;
+            //loma
+
+        }
+
+
+        public void ClickOnCellTextFromTable(string txtTOBeClicked)
+        {
+            driver.FindElement(By.XPath("//tr[td[contains(text(),'" + txtTOBeClicked + "')]]")).Click();
+
+            //DriverUtil.driver.FindElement(By.XPath("//tr[td[contains(text(),'W695')]]")).Click();
+            //DriverUtil.driver.FindElement(By.CssSelector("td:contains('W695')")).Click();
+        }
+
+
+
+       
+
+
     }
+
+   
 }
 
 
