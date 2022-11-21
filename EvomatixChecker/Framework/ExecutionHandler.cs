@@ -35,7 +35,7 @@ namespace SeleniumNUnitExtentReport.Framework
         public ReportHelper Reporter { get => reporter; }
 
         public void IntTest(){
-            ChromeDriverService service = ChromeDriverService.CreateDefaultService("webdriver.chrome.driver", @"D:\\Automation\\WebDrivers\\chromedriver.exe");
+            ChromeDriverService service = ChromeDriverService.CreateDefaultService("webdriver.chrome.driver", @"C:\ChromeDiver\chromedriver.exe");
             driver = new ChromeDriver(service);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(40);
             driver.Manage().Window.Maximize();
