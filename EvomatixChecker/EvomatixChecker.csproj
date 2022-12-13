@@ -121,6 +121,7 @@
     <Compile Include="Pages\GoogleHomePOM.cs" />
     <Compile Include="DataSource\DataSources.cs" />
     <Compile Include="DataSource\ExcelManager.cs" />
+    <Compile Include="DataSource\ExcelDataSources.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="license" />
