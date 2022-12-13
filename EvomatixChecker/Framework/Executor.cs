@@ -16,7 +16,7 @@ using System.Runtime.InteropServices;
 namespace SeleniumNUnitExtentReport.Config
 {
     [SetUpFixture]
-    public abstract class ReportsGenerationClass
+    public abstract class Executor
     {
 
         public ExecutionHandler handler;

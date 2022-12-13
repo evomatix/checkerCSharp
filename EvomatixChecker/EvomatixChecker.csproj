@@ -101,9 +101,12 @@
     <Reference Include="LumenWorks.Framework.IO">
       <HintPath>..\packages\LumenWorks.Framework.IO.3.8.0\lib\net20\LumenWorks.Framework.IO.dll</HintPath>
     </Reference>
+    <Reference Include="FastExcel">
+      <HintPath>..\packages\FastExcel.3.0.13\lib\netstandard2.0\FastExcel.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Framework\ReportsGenerationClass.cs" />
+    <Compile Include="Framework\Executor.cs" />
     <Compile Include="Pages\LoginPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestCases\SearchTest.cs" />
@@ -117,6 +120,7 @@
     <Compile Include="Framework\model\locator\LocatorParam.cs" />
     <Compile Include="Pages\GoogleHomePOM.cs" />
     <Compile Include="DataSource\DataSources.cs" />
+    <Compile Include="DataSource\ExcelManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="license" />
@@ -124,6 +128,7 @@
     <None Include="Data\data.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Data\loginData.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="extent-config.xml" />

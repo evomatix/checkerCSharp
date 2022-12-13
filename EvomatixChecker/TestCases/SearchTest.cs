@@ -8,11 +8,12 @@ using SeleniumNUnitExtentReport.Config;
 using SeleniumNUnitExtentReport.PageMethods;
 using SeleniumNUnitExtentReport.Pages;
 using EvomatixTester.DataDriven.DataSource;
+using EvomatixTester.DataSource;
 
 namespace SeleniumNUnitExtentReport.TestCases
 {
     [TestFixture]
-    public class LoginTest : ReportsGenerationClass
+    public class LoginTest : Executor
     {
 
 
@@ -29,6 +30,23 @@ namespace SeleniumNUnitExtentReport.TestCases
         [Category("Search Google POM")]
         public void test_invalidLogin()
         {
+
+            ExcelManager excel = new ExcelManager();
+            //change the path accordingly
+            excel.openWorkBook("/Users/vdhhewapathirana/Storage/Projects/evomatix/checkerCSharp/EvomatixChecker/Data/loginData.xlsx", "Data");
+            List<Dictionary<string, object>> data = excel.readExcelWithHeaders();
+
+            foreach(Dictionary<string, object> record in data)
+            {
+                String username = (String) record["username"];
+                Console.WriteLine(username);
+
+                String password = (String)record["password"];
+                Console.WriteLine(password);
+            }
+
+
+
             GoogleHomePOM HomePage = new GoogleHomePOM(handler);
             HomePage.ClickOnFeelingLuckey();
         }
